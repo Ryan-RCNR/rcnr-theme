@@ -1,17 +1,44 @@
 {
   "name": "@rcnr/theme",
-  "version": "1.0.0",
-  "description": "Shared RCNR brand CSS: tokens, glass cards, buttons, grid, scrollbars",
-  "main": "index.css",
+  "version": "2.0.1",
+  "description": "RCNR design system: CSS tokens, shared React components (header, footer, subnav), glass cards, buttons, grid",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "style": "index.css",
+  "exports": {
+    ".": {
+      "style": "./index.css",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./styles": "./index.css"
+  },
   "files": [
-    "index.css"
+    "index.css",
+    "dist"
   ],
+  "scripts": {
+    "build": "tsup",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "react": "^19.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0"
+  },
   "keywords": [
     "rcnr",
     "theme",
     "css",
-    "tailwind"
+    "tailwind",
+    "react",
+    "components"
   ],
   "author": "Ryan-RCNR",
   "license": "MIT",
