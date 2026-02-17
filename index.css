@@ -1,16 +1,17 @@
-/* @rcnr/theme v1.0.0
-   RCNR Brand Foundation — tokens, grid, components, scrollbars
+/* @rcnr/theme v2.1.0
+   RCNR Brand Foundation — tokens, grid, components, scrollbars, shared React components
 
    Usage (Tailwind 4):
      @import "tailwindcss";
      @import "@rcnr/theme";
 
-   Usage (Tailwind 3):
-     @tailwind base;
-     @tailwind components;
-     @tailwind utilities;
-     @import "@rcnr/theme";
+   The @source directive below tells Tailwind 4 to scan the dist/ folder for
+   class names used by the shared React components (RCNRHeader, RCNRSubNav,
+   RCNRFooter, RCNRMountainLogo). Without this, classes like "hidden md:inline"
+   and "bg-brand/15" that only appear in the compiled JS won't be included in
+   the consumer's CSS output.
 */
+@source "./dist";
 
 /* --- Tailwind 4 theme tokens ---
    Generates utility classes: bg-brand, text-surface, bg-midnight, etc.
