@@ -1,0 +1,22 @@
+{
+  "name": "@rcnr/theme",
+  "version": "1.0.0",
+  "description": "Shared RCNR brand CSS: tokens, glass cards, buttons, grid, scrollbars",
+  "main": "index.css",
+  "style": "index.css",
+  "files": [
+    "index.css"
+  ],
+  "keywords": [
+    "rcnr",
+    "theme",
+    "css",
+    "tailwind"
+  ],
+  "author": "Ryan-RCNR",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ryan-RCNR/rcnr-theme.git"
+  }
+}
