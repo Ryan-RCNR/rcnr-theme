@@ -26,10 +26,10 @@ function NavButton({
 }
 
 const defaultReportIssue = () =>
-  window.open('https://rcnr.net/support?type=bug', '_blank')
+  window.open('mailto:support@rcnr.net?subject=Bug%20Report', '_blank')
 
 const defaultRequestTool = () =>
-  window.open('https://rcnr.net/support?type=feature', '_blank')
+  window.open('mailto:support@rcnr.net?subject=Feature%20Request', '_blank')
 
 function RCNRHeader({
   toolName,

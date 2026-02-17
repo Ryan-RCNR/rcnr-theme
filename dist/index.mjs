@@ -62,8 +62,8 @@ function NavButton({
     }
   );
 }
-var defaultReportIssue = () => window.open("https://rcnr.net/support?type=bug", "_blank");
-var defaultRequestTool = () => window.open("https://rcnr.net/support?type=feature", "_blank");
+var defaultReportIssue = () => window.open("mailto:support@rcnr.net?subject=Bug%20Report", "_blank");
+var defaultRequestTool = () => window.open("mailto:support@rcnr.net?subject=Feature%20Request", "_blank");
 function RCNRHeader({
   toolName,
   dashboardUrl = "https://teacher.rcnr.net",
