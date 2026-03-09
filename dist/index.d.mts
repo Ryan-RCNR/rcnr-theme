@@ -41,4 +41,22 @@ interface RCNRMountainLogoProps {
 }
 declare function RCNRMountainLogo({ href, className, }: RCNRMountainLogoProps): react_jsx_runtime.JSX.Element;
 
-export { RCNRFooter, type RCNRFooterProps, RCNRHeader, type RCNRHeaderProps, RCNRMountainLogo, RCNRSubNav, type RCNRSubNavProps };
+interface ReportIssueModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    toolName: string;
+    apiBaseUrl?: string;
+    userEmail?: string;
+}
+declare function ReportIssueModal({ isOpen, onClose, toolName, apiBaseUrl, userEmail, }: ReportIssueModalProps): react_jsx_runtime.JSX.Element | null;
+
+interface RequestToolModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    toolName: string;
+    apiBaseUrl?: string;
+    userEmail?: string;
+}
+declare function RequestToolModal({ isOpen, onClose, toolName, apiBaseUrl, userEmail, }: RequestToolModalProps): react_jsx_runtime.JSX.Element | null;
+
+export { RCNRFooter, type RCNRFooterProps, RCNRHeader, type RCNRHeaderProps, RCNRMountainLogo, RCNRSubNav, type RCNRSubNavProps, ReportIssueModal, RequestToolModal };

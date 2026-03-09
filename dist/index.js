@@ -23,7 +23,9 @@ __export(index_exports, {
   RCNRFooter: () => RCNRFooter_default,
   RCNRHeader: () => RCNRHeader_default,
   RCNRMountainLogo: () => RCNRMountainLogo_default,
-  RCNRSubNav: () => RCNRSubNav_default
+  RCNRSubNav: () => RCNRSubNav_default,
+  ReportIssueModal: () => ReportIssueModal,
+  RequestToolModal: () => RequestToolModal
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -251,11 +253,253 @@ function RCNRFooter({
   ) });
 }
 var RCNRFooter_default = RCNRFooter;
+
+// src/ReportIssueModal.tsx
+var import_react = require("react");
+var import_jsx_runtime5 = require("react/jsx-runtime");
+function ReportIssueModal({
+  isOpen,
+  onClose,
+  toolName,
+  apiBaseUrl = "https://api.rcnr.net",
+  userEmail
+}) {
+  const [description, setDescription] = (0, import_react.useState)("");
+  const [submitting, setSubmitting] = (0, import_react.useState)(false);
+  const [submitted, setSubmitted] = (0, import_react.useState)(false);
+  const [error, setError] = (0, import_react.useState)("");
+  const handleClose = (0, import_react.useCallback)(() => {
+    setDescription("");
+    setError("");
+    setSubmitted(false);
+    onClose();
+  }, [onClose]);
+  (0, import_react.useEffect)(() => {
+    if (!isOpen) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") handleClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isOpen, handleClose]);
+  if (!isOpen) return null;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!description.trim()) return;
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch(`${apiBaseUrl}/api/feedback/report`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tool_name: toolName, description, user_email: userEmail })
+      });
+      if (res.ok) {
+        setSubmitted(true);
+        setTimeout(handleClose, 2e3);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("Could not send report. Check your connection.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+    "div",
+    {
+      className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+      style: { background: "rgba(0,12,23,0.85)", backdropFilter: "blur(6px)" },
+      onClick: handleClose,
+      children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+        "div",
+        {
+          className: "relative glass-card rounded-2xl w-full max-w-md p-8",
+          style: { animation: "fadeIn 0.15s ease" },
+          onClick: (e) => e.stopPropagation(),
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+              "button",
+              {
+                onClick: handleClose,
+                className: "absolute top-4 right-4 p-2 text-brand/50 hover:text-brand hover:bg-white/5 rounded-lg transition-colors",
+                "aria-label": "Close",
+                children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("path", { d: "M18 6L6 18M6 6l12 12" }) })
+              }
+            ),
+            submitted ? /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "text-center py-6", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "w-12 h-12 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", className: "text-emerald-400", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("polyline", { points: "20 6 9 17 4 12" }) }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "text-white font-semibold", children: "Report sent. We'll fix it fast." })
+            ] }) : /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h2", { className: "text-xl font-bold text-white font-serif mb-1", children: "Report an Issue" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "text-brand/50 text-sm mb-6", children: "Found a bug or something broken? Let us know." }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("form", { onSubmit: handleSubmit, className: "space-y-4", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "Tool" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+                    "input",
+                    {
+                      type: "text",
+                      value: toolName,
+                      disabled: true,
+                      className: "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-brand/10 text-brand/40 text-sm"
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "What went wrong?" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+                    "textarea",
+                    {
+                      value: description,
+                      onChange: (e) => setDescription(e.target.value),
+                      placeholder: "Describe the issue...",
+                      rows: 4,
+                      required: true,
+                      className: "w-full px-4 py-3 rounded-xl bg-white/5 border border-brand/15 text-white placeholder-brand/30 text-sm resize-none focus:outline-none focus:border-brand/40 transition-colors"
+                    }
+                  )
+                ] }),
+                error && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "text-red-400 text-sm", children: error }),
+                /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+                  "button",
+                  {
+                    type: "submit",
+                    disabled: submitting || !description.trim(),
+                    className: "btn-ice w-full py-3 text-sm font-semibold rounded-xl disabled:opacity-40 disabled:cursor-not-allowed",
+                    children: submitting ? "Sending..." : "Submit Report"
+                  }
+                )
+              ] })
+            ] })
+          ]
+        }
+      )
+    }
+  );
+}
+
+// src/RequestToolModal.tsx
+var import_react2 = require("react");
+var import_jsx_runtime6 = require("react/jsx-runtime");
+function RequestToolModal({
+  isOpen,
+  onClose,
+  toolName,
+  apiBaseUrl = "https://api.rcnr.net",
+  userEmail
+}) {
+  const [description, setDescription] = (0, import_react2.useState)("");
+  const [submitting, setSubmitting] = (0, import_react2.useState)(false);
+  const [submitted, setSubmitted] = (0, import_react2.useState)(false);
+  const [error, setError] = (0, import_react2.useState)("");
+  const handleClose = (0, import_react2.useCallback)(() => {
+    setDescription("");
+    setError("");
+    setSubmitted(false);
+    onClose();
+  }, [onClose]);
+  (0, import_react2.useEffect)(() => {
+    if (!isOpen) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") handleClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isOpen, handleClose]);
+  if (!isOpen) return null;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!description.trim()) return;
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch(`${apiBaseUrl}/api/feedback/request`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tool_name: toolName, description, user_email: userEmail })
+      });
+      if (res.ok) {
+        setSubmitted(true);
+        setTimeout(handleClose, 2e3);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("Could not send request. Check your connection.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+    "div",
+    {
+      className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+      style: { background: "rgba(0,12,23,0.85)", backdropFilter: "blur(6px)" },
+      onClick: handleClose,
+      children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+        "div",
+        {
+          className: "relative glass-card rounded-2xl w-full max-w-md p-8",
+          style: { animation: "fadeIn 0.15s ease" },
+          onClick: (e) => e.stopPropagation(),
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+              "button",
+              {
+                onClick: handleClose,
+                className: "absolute top-4 right-4 p-2 text-brand/50 hover:text-brand hover:bg-white/5 rounded-lg transition-colors",
+                "aria-label": "Close",
+                children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("path", { d: "M18 6L6 18M6 6l12 12" }) })
+              }
+            ),
+            submitted ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "text-center py-6", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "w-12 h-12 rounded-full bg-brand/10 flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", className: "text-brand", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("polyline", { points: "20 6 9 17 4 12" }) }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { className: "text-white font-semibold", children: "Request received. Thanks!" })
+            ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h2", { className: "text-xl font-bold text-white font-serif mb-1", children: "Request a Tool" }),
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { className: "text-brand/50 text-sm mb-6", children: "Have an idea for something we should build?" }),
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("form", { onSubmit: handleSubmit, className: "space-y-4", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "Describe what you need" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                    "textarea",
+                    {
+                      value: description,
+                      onChange: (e) => setDescription(e.target.value),
+                      placeholder: "What problem would this tool solve? What would it do?",
+                      rows: 5,
+                      required: true,
+                      className: "w-full px-4 py-3 rounded-xl bg-white/5 border border-brand/15 text-white placeholder-brand/30 text-sm resize-none focus:outline-none focus:border-brand/40 transition-colors"
+                    }
+                  )
+                ] }),
+                error && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { className: "text-red-400 text-sm", children: error }),
+                /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                  "button",
+                  {
+                    type: "submit",
+                    disabled: submitting || !description.trim(),
+                    className: "btn-ice w-full py-3 text-sm font-semibold rounded-xl disabled:opacity-40 disabled:cursor-not-allowed",
+                    children: submitting ? "Sending..." : "Submit Request"
+                  }
+                )
+              ] })
+            ] })
+          ]
+        }
+      )
+    }
+  );
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   RCNRFooter,
   RCNRHeader,
   RCNRMountainLogo,
-  RCNRSubNav
+  RCNRSubNav,
+  ReportIssueModal,
+  RequestToolModal
 });
 //# sourceMappingURL=index.js.map
