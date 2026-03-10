@@ -63,7 +63,7 @@ export function ReportIssueModal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(0,12,23,0.85)', backdropFilter: 'blur(6px)' }}
+      style={{ background: 'var(--rcnr-overlay)', backdropFilter: 'blur(6px)' }}
       onClick={handleClose}
     >
       <div
@@ -73,7 +73,10 @@ export function ReportIssueModal({
       >
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 p-2 text-brand/50 hover:text-brand hover:bg-white/5 rounded-lg transition-colors"
+          className="absolute top-4 right-4 p-2 rounded-lg transition-colors"
+          style={{ color: 'var(--rcnr-text3)' }}
+          onMouseOver={(e) => { e.currentTarget.style.color = 'var(--rcnr-text)'; e.currentTarget.style.background = 'var(--rcnr-surface2)' }}
+          onMouseOut={(e) => { e.currentTarget.style.color = 'var(--rcnr-text3)'; e.currentTarget.style.background = 'transparent' }}
           aria-label="Close"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -88,26 +91,27 @@ export function ReportIssueModal({
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <p className="text-white font-semibold">Report sent. We'll fix it fast.</p>
+            <p className="font-semibold" style={{ color: 'var(--rcnr-text)' }}>Report sent. We'll fix it fast.</p>
           </div>
         ) : (
           <>
-            <h2 className="text-xl font-bold text-white font-serif mb-1">Report an Issue</h2>
-            <p className="text-brand/50 text-sm mb-6">Found a bug or something broken? Let us know.</p>
+            <h2 className="text-xl font-bold font-serif mb-1" style={{ color: 'var(--rcnr-text)' }}>Report an Issue</h2>
+            <p className="text-sm mb-6" style={{ color: 'var(--rcnr-text3)' }}>Found a bug or something broken? Let us know.</p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2">Tool</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--rcnr-text3)' }}>Tool</label>
                 <input
                   type="text"
                   value={toolName}
                   disabled
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-brand/10 text-brand/40 text-sm"
+                  className="w-full px-4 py-2.5 rounded-xl text-sm"
+                  style={{ background: 'var(--rcnr-surface2)', border: '1px solid var(--rcnr-border)', color: 'var(--rcnr-text3)' }}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--rcnr-text3)' }}>
                   What went wrong?
                 </label>
                 <textarea
@@ -116,7 +120,8 @@ export function ReportIssueModal({
                   placeholder="Describe the issue..."
                   rows={4}
                   required
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-brand/15 text-white placeholder-brand/30 text-sm resize-none focus:outline-none focus:border-brand/40 transition-colors"
+                  className="rcnr-input resize-none"
+                  style={{ paddingLeft: '1rem' }}
                 />
               </div>
 

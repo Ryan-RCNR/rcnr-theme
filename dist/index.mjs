@@ -9,6 +9,7 @@ function RCNRMountainLogo({
     {
       href,
       className: `flex items-center justify-center w-10 h-10 rounded-lg bg-brand/10 hover:bg-brand/20 transition-colors ${className}`,
+      style: { color: "var(--rcnr-logo-fill)" },
       title: "Back to Dashboard",
       children: /* @__PURE__ */ jsxs(
         "svg",
@@ -23,14 +24,14 @@ function RCNRMountainLogo({
               "path",
               {
                 d: "M10,90l26.48-39.76h.31s4.54,5.02,4.54,5.02l.32-.16,23.06-37.14,17.34,28.63,3.65-4.61,30.22,48.03h-8.43c-7.17-12.26-15.51-24.35-23.06-36.26-1.43.52-2.03,3.6-3.49,3.97l-16.31-25.93-21.87,34.36-5.09-5.01-19.48,28.87h-8.19Z",
-                fill: "#99D9D9"
+                fill: "currentColor"
               }
             ),
             /* @__PURE__ */ jsx(
               "path",
               {
                 d: "M89.84,90h-5.73c-6.34-8.18-12.93-16.89-19.64-24.65-6.66,8.19-13.04,16.6-19.89,24.65h-5.81l25.69-39.76,25.37,39.76Z",
-                fill: "#99D9D9"
+                fill: "currentColor"
               }
             )
           ]
@@ -319,7 +320,7 @@ function ReportIssueModal({
     "div",
     {
       className: "fixed inset-0 z-50 flex items-center justify-center p-4",
-      style: { background: "rgba(0,12,23,0.85)", backdropFilter: "blur(6px)" },
+      style: { background: "var(--rcnr-overlay)", backdropFilter: "blur(6px)" },
       onClick: handleClose,
       children: /* @__PURE__ */ jsxs5(
         "div",
@@ -332,32 +333,42 @@ function ReportIssueModal({
               "button",
               {
                 onClick: handleClose,
-                className: "absolute top-4 right-4 p-2 text-brand/50 hover:text-brand hover:bg-white/5 rounded-lg transition-colors",
+                className: "absolute top-4 right-4 p-2 rounded-lg transition-colors",
+                style: { color: "var(--rcnr-text3)" },
+                onMouseOver: (e) => {
+                  e.currentTarget.style.color = "var(--rcnr-text)";
+                  e.currentTarget.style.background = "var(--rcnr-surface2)";
+                },
+                onMouseOut: (e) => {
+                  e.currentTarget.style.color = "var(--rcnr-text3)";
+                  e.currentTarget.style.background = "transparent";
+                },
                 "aria-label": "Close",
                 children: /* @__PURE__ */ jsx6("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsx6("path", { d: "M18 6L6 18M6 6l12 12" }) })
               }
             ),
             submitted ? /* @__PURE__ */ jsxs5("div", { className: "text-center py-6", children: [
               /* @__PURE__ */ jsx6("div", { className: "w-12 h-12 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ jsx6("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", className: "text-emerald-400", children: /* @__PURE__ */ jsx6("polyline", { points: "20 6 9 17 4 12" }) }) }),
-              /* @__PURE__ */ jsx6("p", { className: "text-white font-semibold", children: "Report sent. We'll fix it fast." })
+              /* @__PURE__ */ jsx6("p", { className: "font-semibold", style: { color: "var(--rcnr-text)" }, children: "Report sent. We'll fix it fast." })
             ] }) : /* @__PURE__ */ jsxs5(Fragment, { children: [
-              /* @__PURE__ */ jsx6("h2", { className: "text-xl font-bold text-white font-serif mb-1", children: "Report an Issue" }),
-              /* @__PURE__ */ jsx6("p", { className: "text-brand/50 text-sm mb-6", children: "Found a bug or something broken? Let us know." }),
+              /* @__PURE__ */ jsx6("h2", { className: "text-xl font-bold font-serif mb-1", style: { color: "var(--rcnr-text)" }, children: "Report an Issue" }),
+              /* @__PURE__ */ jsx6("p", { className: "text-sm mb-6", style: { color: "var(--rcnr-text3)" }, children: "Found a bug or something broken? Let us know." }),
               /* @__PURE__ */ jsxs5("form", { onSubmit: handleSubmit, className: "space-y-4", children: [
                 /* @__PURE__ */ jsxs5("div", { children: [
-                  /* @__PURE__ */ jsx6("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "Tool" }),
+                  /* @__PURE__ */ jsx6("label", { className: "block text-xs font-semibold uppercase tracking-wider mb-2", style: { color: "var(--rcnr-text3)" }, children: "Tool" }),
                   /* @__PURE__ */ jsx6(
                     "input",
                     {
                       type: "text",
                       value: toolName,
                       disabled: true,
-                      className: "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-brand/10 text-brand/40 text-sm"
+                      className: "w-full px-4 py-2.5 rounded-xl text-sm",
+                      style: { background: "var(--rcnr-surface2)", border: "1px solid var(--rcnr-border)", color: "var(--rcnr-text3)" }
                     }
                   )
                 ] }),
                 /* @__PURE__ */ jsxs5("div", { children: [
-                  /* @__PURE__ */ jsx6("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "What went wrong?" }),
+                  /* @__PURE__ */ jsx6("label", { className: "block text-xs font-semibold uppercase tracking-wider mb-2", style: { color: "var(--rcnr-text3)" }, children: "What went wrong?" }),
                   /* @__PURE__ */ jsx6(
                     "textarea",
                     {
@@ -366,7 +377,8 @@ function ReportIssueModal({
                       placeholder: "Describe the issue...",
                       rows: 4,
                       required: true,
-                      className: "w-full px-4 py-3 rounded-xl bg-white/5 border border-brand/15 text-white placeholder-brand/30 text-sm resize-none focus:outline-none focus:border-brand/40 transition-colors"
+                      className: "rcnr-input resize-none",
+                      style: { paddingLeft: "1rem" }
                     }
                   )
                 ] }),
@@ -445,7 +457,7 @@ function RequestToolModal({
     "div",
     {
       className: "fixed inset-0 z-50 flex items-center justify-center p-4",
-      style: { background: "rgba(0,12,23,0.85)", backdropFilter: "blur(6px)" },
+      style: { background: "var(--rcnr-overlay)", backdropFilter: "blur(6px)" },
       onClick: handleClose,
       children: /* @__PURE__ */ jsxs6(
         "div",
@@ -458,20 +470,29 @@ function RequestToolModal({
               "button",
               {
                 onClick: handleClose,
-                className: "absolute top-4 right-4 p-2 text-brand/50 hover:text-brand hover:bg-white/5 rounded-lg transition-colors",
+                className: "absolute top-4 right-4 p-2 rounded-lg transition-colors",
+                style: { color: "var(--rcnr-text3)" },
+                onMouseOver: (e) => {
+                  e.currentTarget.style.color = "var(--rcnr-text)";
+                  e.currentTarget.style.background = "var(--rcnr-surface2)";
+                },
+                onMouseOut: (e) => {
+                  e.currentTarget.style.color = "var(--rcnr-text3)";
+                  e.currentTarget.style.background = "transparent";
+                },
                 "aria-label": "Close",
                 children: /* @__PURE__ */ jsx7("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsx7("path", { d: "M18 6L6 18M6 6l12 12" }) })
               }
             ),
             submitted ? /* @__PURE__ */ jsxs6("div", { className: "text-center py-6", children: [
               /* @__PURE__ */ jsx7("div", { className: "w-12 h-12 rounded-full bg-brand/10 flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ jsx7("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", className: "text-brand", children: /* @__PURE__ */ jsx7("polyline", { points: "20 6 9 17 4 12" }) }) }),
-              /* @__PURE__ */ jsx7("p", { className: "text-white font-semibold", children: "Request received. Thanks!" })
+              /* @__PURE__ */ jsx7("p", { className: "font-semibold", style: { color: "var(--rcnr-text)" }, children: "Request received. Thanks!" })
             ] }) : /* @__PURE__ */ jsxs6(Fragment2, { children: [
-              /* @__PURE__ */ jsx7("h2", { className: "text-xl font-bold text-white font-serif mb-1", children: "Request a Tool" }),
-              /* @__PURE__ */ jsx7("p", { className: "text-brand/50 text-sm mb-6", children: "Have an idea for something we should build?" }),
+              /* @__PURE__ */ jsx7("h2", { className: "text-xl font-bold font-serif mb-1", style: { color: "var(--rcnr-text)" }, children: "Request a Tool" }),
+              /* @__PURE__ */ jsx7("p", { className: "text-sm mb-6", style: { color: "var(--rcnr-text3)" }, children: "Have an idea for something we should build?" }),
               /* @__PURE__ */ jsxs6("form", { onSubmit: handleSubmit, className: "space-y-4", children: [
                 /* @__PURE__ */ jsxs6("div", { children: [
-                  /* @__PURE__ */ jsx7("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "Describe what you need" }),
+                  /* @__PURE__ */ jsx7("label", { className: "block text-xs font-semibold uppercase tracking-wider mb-2", style: { color: "var(--rcnr-text3)" }, children: "Describe what you need" }),
                   /* @__PURE__ */ jsx7(
                     "textarea",
                     {
@@ -480,7 +501,8 @@ function RequestToolModal({
                       placeholder: "What problem would this tool solve? What would it do?",
                       rows: 5,
                       required: true,
-                      className: "w-full px-4 py-3 rounded-xl bg-white/5 border border-brand/15 text-white placeholder-brand/30 text-sm resize-none focus:outline-none focus:border-brand/40 transition-colors"
+                      className: "rcnr-input resize-none",
+                      style: { paddingLeft: "1rem" }
                     }
                   )
                 ] }),
