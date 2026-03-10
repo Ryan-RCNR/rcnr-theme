@@ -46,7 +46,7 @@ function RCNRHeader({
         {/* Left: Logo + Tool Name */}
         <div className="flex items-center gap-4">
           <RCNRMountainLogo href={dashboardUrl} />
-          <span className="text-xl font-serif text-brand">{toolName}</span>
+          <span className="text-xl font-serif" style={{ color: 'var(--rcnr-logo-fill)' }}>{toolName}</span>
         </div>
 
         {/* Right: Nav Actions */}

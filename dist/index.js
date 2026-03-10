@@ -109,7 +109,7 @@ function RCNRHeader({
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("header", { className: "glass-card border-b border-brand/15 px-6 py-4", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex items-center justify-between", children: [
     /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex items-center gap-4", children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(RCNRMountainLogo_default, { href: dashboardUrl }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "text-xl font-serif text-brand", children: toolName })
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "text-xl font-serif", style: { color: "var(--rcnr-logo-fill)" }, children: toolName })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex items-center gap-2", children: [
       extraNavItems?.map((item) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(

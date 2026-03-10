@@ -1,6 +1,6 @@
 {
   "name": "@rcnr/theme",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "RCNR design system: CSS tokens, shared React components (header, footer, subnav), glass cards, buttons, grid",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
