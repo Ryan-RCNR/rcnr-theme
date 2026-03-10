@@ -223,9 +223,49 @@ function RCNRFooter({
 }
 var RCNRFooter_default = RCNRFooter;
 
+// src/ThemeToggle.tsx
+import { useEffect, useState } from "react";
+import { Sun, Moon } from "lucide-react";
+import { jsx as jsx5 } from "react/jsx-runtime";
+var STORAGE_KEY = "rcnr-theme";
+function getInitialTheme() {
+  if (typeof window === "undefined") return "dark";
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored === "light" || stored === "dark") return stored;
+  return "dark";
+}
+function ThemeToggle() {
+  const [theme, setTheme] = useState(getInitialTheme);
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+  }, [theme]);
+  const toggle = () => setTheme((prev) => prev === "dark" ? "light" : "dark");
+  return /* @__PURE__ */ jsx5(
+    "button",
+    {
+      onClick: toggle,
+      "aria-label": `Switch to ${theme === "dark" ? "light" : "dark"} mode`,
+      style: {
+        background: "transparent",
+        border: "none",
+        cursor: "pointer",
+        padding: "6px",
+        borderRadius: "6px",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "var(--rcnr-text2, #6888aa)",
+        transition: "color 0.2s ease"
+      },
+      children: theme === "dark" ? /* @__PURE__ */ jsx5(Sun, { size: 18 }) : /* @__PURE__ */ jsx5(Moon, { size: 18 })
+    }
+  );
+}
+
 // src/ReportIssueModal.tsx
-import { useState, useEffect, useCallback } from "react";
-import { Fragment, jsx as jsx5, jsxs as jsxs5 } from "react/jsx-runtime";
+import { useState as useState2, useEffect as useEffect2, useCallback } from "react";
+import { Fragment, jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
 function ReportIssueModal({
   isOpen,
   onClose,
@@ -233,17 +273,17 @@ function ReportIssueModal({
   apiBaseUrl = "https://api.rcnr.net",
   userEmail
 }) {
-  const [description, setDescription] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  const [description, setDescription] = useState2("");
+  const [submitting, setSubmitting] = useState2(false);
+  const [submitted, setSubmitted] = useState2(false);
+  const [error, setError] = useState2("");
   const handleClose = useCallback(() => {
     setDescription("");
     setError("");
     setSubmitted(false);
     onClose();
   }, [onClose]);
-  useEffect(() => {
+  useEffect2(() => {
     if (!isOpen) return;
     const onKey = (e) => {
       if (e.key === "Escape") handleClose();
@@ -275,7 +315,7 @@ function ReportIssueModal({
       setSubmitting(false);
     }
   };
-  return /* @__PURE__ */ jsx5(
+  return /* @__PURE__ */ jsx6(
     "div",
     {
       className: "fixed inset-0 z-50 flex items-center justify-center p-4",
@@ -288,25 +328,25 @@ function ReportIssueModal({
           style: { animation: "fadeIn 0.15s ease" },
           onClick: (e) => e.stopPropagation(),
           children: [
-            /* @__PURE__ */ jsx5(
+            /* @__PURE__ */ jsx6(
               "button",
               {
                 onClick: handleClose,
                 className: "absolute top-4 right-4 p-2 text-brand/50 hover:text-brand hover:bg-white/5 rounded-lg transition-colors",
                 "aria-label": "Close",
-                children: /* @__PURE__ */ jsx5("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsx5("path", { d: "M18 6L6 18M6 6l12 12" }) })
+                children: /* @__PURE__ */ jsx6("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsx6("path", { d: "M18 6L6 18M6 6l12 12" }) })
               }
             ),
             submitted ? /* @__PURE__ */ jsxs5("div", { className: "text-center py-6", children: [
-              /* @__PURE__ */ jsx5("div", { className: "w-12 h-12 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ jsx5("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", className: "text-emerald-400", children: /* @__PURE__ */ jsx5("polyline", { points: "20 6 9 17 4 12" }) }) }),
-              /* @__PURE__ */ jsx5("p", { className: "text-white font-semibold", children: "Report sent. We'll fix it fast." })
+              /* @__PURE__ */ jsx6("div", { className: "w-12 h-12 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ jsx6("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", className: "text-emerald-400", children: /* @__PURE__ */ jsx6("polyline", { points: "20 6 9 17 4 12" }) }) }),
+              /* @__PURE__ */ jsx6("p", { className: "text-white font-semibold", children: "Report sent. We'll fix it fast." })
             ] }) : /* @__PURE__ */ jsxs5(Fragment, { children: [
-              /* @__PURE__ */ jsx5("h2", { className: "text-xl font-bold text-white font-serif mb-1", children: "Report an Issue" }),
-              /* @__PURE__ */ jsx5("p", { className: "text-brand/50 text-sm mb-6", children: "Found a bug or something broken? Let us know." }),
+              /* @__PURE__ */ jsx6("h2", { className: "text-xl font-bold text-white font-serif mb-1", children: "Report an Issue" }),
+              /* @__PURE__ */ jsx6("p", { className: "text-brand/50 text-sm mb-6", children: "Found a bug or something broken? Let us know." }),
               /* @__PURE__ */ jsxs5("form", { onSubmit: handleSubmit, className: "space-y-4", children: [
                 /* @__PURE__ */ jsxs5("div", { children: [
-                  /* @__PURE__ */ jsx5("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "Tool" }),
-                  /* @__PURE__ */ jsx5(
+                  /* @__PURE__ */ jsx6("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "Tool" }),
+                  /* @__PURE__ */ jsx6(
                     "input",
                     {
                       type: "text",
@@ -317,8 +357,8 @@ function ReportIssueModal({
                   )
                 ] }),
                 /* @__PURE__ */ jsxs5("div", { children: [
-                  /* @__PURE__ */ jsx5("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "What went wrong?" }),
-                  /* @__PURE__ */ jsx5(
+                  /* @__PURE__ */ jsx6("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "What went wrong?" }),
+                  /* @__PURE__ */ jsx6(
                     "textarea",
                     {
                       value: description,
@@ -330,8 +370,8 @@ function ReportIssueModal({
                     }
                   )
                 ] }),
-                error && /* @__PURE__ */ jsx5("p", { className: "text-red-400 text-sm", children: error }),
-                /* @__PURE__ */ jsx5(
+                error && /* @__PURE__ */ jsx6("p", { className: "text-red-400 text-sm", children: error }),
+                /* @__PURE__ */ jsx6(
                   "button",
                   {
                     type: "submit",
@@ -350,8 +390,8 @@ function ReportIssueModal({
 }
 
 // src/RequestToolModal.tsx
-import { useState as useState2, useEffect as useEffect2, useCallback as useCallback2 } from "react";
-import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs6 } from "react/jsx-runtime";
+import { useState as useState3, useEffect as useEffect3, useCallback as useCallback2 } from "react";
+import { Fragment as Fragment2, jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
 function RequestToolModal({
   isOpen,
   onClose,
@@ -359,17 +399,17 @@ function RequestToolModal({
   apiBaseUrl = "https://api.rcnr.net",
   userEmail
 }) {
-  const [description, setDescription] = useState2("");
-  const [submitting, setSubmitting] = useState2(false);
-  const [submitted, setSubmitted] = useState2(false);
-  const [error, setError] = useState2("");
+  const [description, setDescription] = useState3("");
+  const [submitting, setSubmitting] = useState3(false);
+  const [submitted, setSubmitted] = useState3(false);
+  const [error, setError] = useState3("");
   const handleClose = useCallback2(() => {
     setDescription("");
     setError("");
     setSubmitted(false);
     onClose();
   }, [onClose]);
-  useEffect2(() => {
+  useEffect3(() => {
     if (!isOpen) return;
     const onKey = (e) => {
       if (e.key === "Escape") handleClose();
@@ -401,7 +441,7 @@ function RequestToolModal({
       setSubmitting(false);
     }
   };
-  return /* @__PURE__ */ jsx6(
+  return /* @__PURE__ */ jsx7(
     "div",
     {
       className: "fixed inset-0 z-50 flex items-center justify-center p-4",
@@ -414,25 +454,25 @@ function RequestToolModal({
           style: { animation: "fadeIn 0.15s ease" },
           onClick: (e) => e.stopPropagation(),
           children: [
-            /* @__PURE__ */ jsx6(
+            /* @__PURE__ */ jsx7(
               "button",
               {
                 onClick: handleClose,
                 className: "absolute top-4 right-4 p-2 text-brand/50 hover:text-brand hover:bg-white/5 rounded-lg transition-colors",
                 "aria-label": "Close",
-                children: /* @__PURE__ */ jsx6("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsx6("path", { d: "M18 6L6 18M6 6l12 12" }) })
+                children: /* @__PURE__ */ jsx7("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsx7("path", { d: "M18 6L6 18M6 6l12 12" }) })
               }
             ),
             submitted ? /* @__PURE__ */ jsxs6("div", { className: "text-center py-6", children: [
-              /* @__PURE__ */ jsx6("div", { className: "w-12 h-12 rounded-full bg-brand/10 flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ jsx6("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", className: "text-brand", children: /* @__PURE__ */ jsx6("polyline", { points: "20 6 9 17 4 12" }) }) }),
-              /* @__PURE__ */ jsx6("p", { className: "text-white font-semibold", children: "Request received. Thanks!" })
+              /* @__PURE__ */ jsx7("div", { className: "w-12 h-12 rounded-full bg-brand/10 flex items-center justify-center mx-auto mb-4", children: /* @__PURE__ */ jsx7("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", className: "text-brand", children: /* @__PURE__ */ jsx7("polyline", { points: "20 6 9 17 4 12" }) }) }),
+              /* @__PURE__ */ jsx7("p", { className: "text-white font-semibold", children: "Request received. Thanks!" })
             ] }) : /* @__PURE__ */ jsxs6(Fragment2, { children: [
-              /* @__PURE__ */ jsx6("h2", { className: "text-xl font-bold text-white font-serif mb-1", children: "Request a Tool" }),
-              /* @__PURE__ */ jsx6("p", { className: "text-brand/50 text-sm mb-6", children: "Have an idea for something we should build?" }),
+              /* @__PURE__ */ jsx7("h2", { className: "text-xl font-bold text-white font-serif mb-1", children: "Request a Tool" }),
+              /* @__PURE__ */ jsx7("p", { className: "text-brand/50 text-sm mb-6", children: "Have an idea for something we should build?" }),
               /* @__PURE__ */ jsxs6("form", { onSubmit: handleSubmit, className: "space-y-4", children: [
                 /* @__PURE__ */ jsxs6("div", { children: [
-                  /* @__PURE__ */ jsx6("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "Describe what you need" }),
-                  /* @__PURE__ */ jsx6(
+                  /* @__PURE__ */ jsx7("label", { className: "block text-xs font-semibold text-brand/60 uppercase tracking-wider mb-2", children: "Describe what you need" }),
+                  /* @__PURE__ */ jsx7(
                     "textarea",
                     {
                       value: description,
@@ -444,8 +484,8 @@ function RequestToolModal({
                     }
                   )
                 ] }),
-                error && /* @__PURE__ */ jsx6("p", { className: "text-red-400 text-sm", children: error }),
-                /* @__PURE__ */ jsx6(
+                error && /* @__PURE__ */ jsx7("p", { className: "text-red-400 text-sm", children: error }),
+                /* @__PURE__ */ jsx7(
                   "button",
                   {
                     type: "submit",
@@ -468,6 +508,7 @@ export {
   RCNRMountainLogo_default as RCNRMountainLogo,
   RCNRSubNav_default as RCNRSubNav,
   ReportIssueModal,
-  RequestToolModal
+  RequestToolModal,
+  ThemeToggle
 };
 //# sourceMappingURL=index.mjs.map

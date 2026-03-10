@@ -1,5 +1,5 @@
-/* @rcnr/theme v2.1.0
-   RCNR Brand Foundation — tokens, grid, components, scrollbars, shared React components
+/* @rcnr/theme v3.0.0
+   RCNR Brand Foundation — tokens, components, scrollbars, shared React components
 
    Usage (Tailwind 4):
      @import "tailwindcss";
@@ -47,21 +47,46 @@
   --ice-subtle: #0A1E2E;
   --amber: #F5A623;
   --amber-hover: #FFB84D;
+
+  /* --- RCNR design tokens (dark mode default) --- */
+  --rcnr-bg:          #0d1b2a;
+  --rcnr-nav:         #091422;
+  --rcnr-surface:     #122035;
+  --rcnr-surface2:    #162840;
+  --rcnr-border:      #1e3349;
+  --rcnr-text:        #e2ecf8;
+  --rcnr-text2:       #6888aa;
+  --rcnr-text3:       #344f6a;
+  --rcnr-accent:      #2dd4bf;
+  --rcnr-accent-dim:  rgba(45, 212, 191, 0.10);
+  --rcnr-cta:         #f0b429;
+  --rcnr-cta-text:    #0d1520;
 }
 
-/* --- Body: grid background --- */
+/* --- RCNR design tokens (light mode) --- */
+[data-theme="light"] {
+  --rcnr-bg:          #eef4fc;
+  --rcnr-nav:         #ffffff;
+  --rcnr-surface:     #ffffff;
+  --rcnr-surface2:    #e4edf8;
+  --rcnr-border:      #c8d9ee;
+  --rcnr-text:        #0a1825;
+  --rcnr-text2:       #3a5878;
+  --rcnr-text3:       #7a9abc;
+  --rcnr-accent:      #0d7377;
+  --rcnr-accent-dim:  rgba(13, 115, 119, 0.08);
+  --rcnr-cta:         #e0a800;
+  --rcnr-cta-text:    #1a0f00;
+}
+
+/* --- Body --- */
 body {
   margin: 0;
-  color: white;
+  color: var(--rcnr-text, white);
   font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background:
-    linear-gradient(rgba(153, 217, 217, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(153, 217, 217, 0.05) 1px, transparent 1px),
-    #001628;
-  background-size: 60px 60px, 60px 60px, auto;
-  background-attachment: fixed;
+  background: var(--rcnr-bg, #0d1b2a);
 }
 
 /* --- Root container --- */
@@ -142,6 +167,16 @@ body {
 .btn-ghost:hover {
   border-color: #68A2B9;
   color: #99d9d9;
+}
+
+/* --- Clerk UserButton popover (dark mode fix) --- */
+.rcnr-clerk-popover {
+  background: var(--rcnr-surface) !important;
+  border: 1px solid var(--rcnr-border) !important;
+}
+
+.rcnr-clerk-popover-btn:hover {
+  background: var(--rcnr-surface2) !important;
 }
 
 /* --- Scrollbar --- */

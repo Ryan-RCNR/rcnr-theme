@@ -1,6 +1,6 @@
 {
   "name": "@rcnr/theme",
-  "version": "2.0.6",
+  "version": "3.0.0",
   "description": "RCNR design system: CSS tokens, shared React components (header, footer, subnav), glass cards, buttons, grid",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -24,10 +24,12 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
+    "lucide-react": ">=0.300.0",
     "react": ">=18"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
+    "lucide-react": "^0.577.0",
     "react": "^19.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.3.0"
