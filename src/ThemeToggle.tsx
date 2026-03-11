@@ -9,6 +9,8 @@ function getInitialTheme(): Theme {
   if (typeof window === 'undefined') return 'dark'
   const stored = localStorage.getItem(STORAGE_KEY)
   if (stored === 'light' || stored === 'dark') return stored
+  // Default to system preference
+  if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light'
   return 'dark'
 }
 
