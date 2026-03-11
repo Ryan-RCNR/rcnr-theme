@@ -20,21 +20,21 @@
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
 
-  --color-brand: #7ec8c8;
-  --color-brand-dark: #5a9ea5;
-  --color-brand-glow: rgba(126, 200, 200, 0.15);
+  /* Theme-aware: these reference CSS vars that change in [data-theme="light"] */
+  --color-brand:      var(--rcnr-accent);
+  --color-brand-dark: var(--rcnr-accent-muted);
+  --color-brand-glow: var(--rcnr-accent-dim);
 
-  --color-amber: #E8B84D;
-  --color-amber-hover: #F0C870;
+  --color-amber:       var(--rcnr-cta);
+  --color-amber-hover: var(--rcnr-cta-hover);
 
   --color-rose: #FB7185;
 
-  --color-surface: #1c2028;
-  --color-surface-light: #22262f;
-  --color-surface-lighter: #2c3340;
-  --color-midnight: #111418;
+  --color-surface:         var(--rcnr-surface);
+  --color-surface-light:   var(--rcnr-surface2);
+  --color-surface-lighter: var(--rcnr-border);
+  --color-midnight:        var(--rcnr-bg);
 
-  /* Theme-aware text utilities: text-fg, text-fg-muted, text-fg-dim */
   --color-fg:       var(--rcnr-text);
   --color-fg-muted: var(--rcnr-text2);
   --color-fg-dim:   var(--rcnr-text3);
