@@ -87,9 +87,9 @@
   --rcnr-text:        #1c1f26;
   --rcnr-text2:       #545c6a;
   --rcnr-text3:       #8990a0;
-  --rcnr-accent:      #0f8588;
-  --rcnr-accent-dim:  rgba(15, 133, 136, 0.07);
-  --rcnr-accent-muted:#1a9e9e;
+  --rcnr-accent:      #0a6b6e;
+  --rcnr-accent-dim:  rgba(10, 107, 110, 0.07);
+  --rcnr-accent-muted:#147a7d;
   --rcnr-cta:         #cf8f1a;
   --rcnr-cta-hover:   #b87e10;
   --rcnr-cta-text:    #ffffff;
@@ -183,12 +183,12 @@ body {
 }
 
 [data-theme="light"] .btn-ice {
-  background: linear-gradient(135deg, #0f8588 0%, #0a6e70 100%);
+  background: linear-gradient(135deg, #0a6b6e 0%, #085557 100%);
   color: #ffffff;
 }
 
 [data-theme="light"] .btn-ice:hover {
-  box-shadow: 0 4px 20px rgba(15, 133, 136, 0.3);
+  box-shadow: 0 4px 20px rgba(10, 107, 110, 0.3);
 }
 
 /* --- Amber CTA button --- */

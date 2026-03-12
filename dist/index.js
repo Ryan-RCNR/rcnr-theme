@@ -260,11 +260,28 @@ var RCNRFooter_default = RCNRFooter;
 var import_react = require("react");
 var import_lucide_react = require("lucide-react");
 var import_jsx_runtime5 = require("react/jsx-runtime");
-var STORAGE_KEY = "rcnr-theme";
+var COOKIE_NAME = "rcnr-theme";
+function getCookie() {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]+)`));
+  return match ? match[1] : null;
+}
+function setCookie(value) {
+  const maxAge = 365 * 24 * 60 * 60;
+  const host = window.location.hostname;
+  const domainPart = host.endsWith(".rcnr.net") || host === "rcnr.net" ? "; domain=.rcnr.net" : "";
+  document.cookie = `${COOKIE_NAME}=${value}; path=/; max-age=${maxAge}; SameSite=Lax${domainPart}`;
+}
 function getInitialTheme() {
   if (typeof window === "undefined") return "dark";
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored === "light" || stored === "dark") return stored;
+  const fromCookie = getCookie();
+  if (fromCookie === "light" || fromCookie === "dark") return fromCookie;
+  const fromStorage = localStorage.getItem(COOKIE_NAME);
+  if (fromStorage === "light" || fromStorage === "dark") {
+    setCookie(fromStorage);
+    localStorage.removeItem(COOKIE_NAME);
+    return fromStorage;
+  }
   if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
   return "dark";
 }
@@ -272,7 +289,7 @@ function ThemeToggle() {
   const [theme, setTheme] = (0, import_react.useState)(getInitialTheme);
   (0, import_react.useEffect)(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem(STORAGE_KEY, theme);
+    setCookie(theme);
   }, [theme]);
   const toggle = () => setTheme((prev) => prev === "dark" ? "light" : "dark");
   return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
