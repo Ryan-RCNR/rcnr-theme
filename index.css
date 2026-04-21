@@ -86,13 +86,20 @@
   --rcnr-border:      #d4d8e0;
   --rcnr-text:        #1c1f26;
   --rcnr-text2:       #545c6a;
-  --rcnr-text3:       #8990a0;
+  /* Was #8990a0 (3.2:1 on white, fails WCAG AA for normal body text).
+     Darkened to #5a6274 — ~5.2:1 on white, still clearly tertiary vs.
+     --rcnr-text (#1c1f26) and --rcnr-text2 (#545c6a). */
+  --rcnr-text3:       #5a6274;
   --rcnr-accent:      #0a6b6e;
   --rcnr-accent-dim:  rgba(10, 107, 110, 0.07);
   --rcnr-accent-muted:#147a7d;
-  --rcnr-cta:         #cf8f1a;
-  --rcnr-cta-hover:   #b87e10;
-  --rcnr-cta-text:    #ffffff;
+  /* Was #cf8f1a amber with white text (#ffffff) = 2.76:1, fails AA.
+     Kept amber hue bright (#E8B84D matches dark mode), swapped text to
+     a deep brown (#3b2a0a) — ~8.5:1. "Amber button with dark text" is a
+     common accessibility-safe pattern for warm CTAs on light UIs. */
+  --rcnr-cta:         #E8B84D;
+  --rcnr-cta-hover:   #F0C870;
+  --rcnr-cta-text:    #3b2a0a;
   --rcnr-danger:      #dc2646;
   --rcnr-overlay:     rgba(0, 0, 0, 0.4);
   --rcnr-logo-fill:   #1c1f26;
