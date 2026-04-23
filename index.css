@@ -69,6 +69,9 @@
   --rcnr-cta-hover:   #F0C870;
   --rcnr-cta-text:    #1a0f00;
   --rcnr-danger:      #fb7185;
+  --rcnr-success:     #22c55e;
+  --rcnr-success-bg:  rgba(34, 197, 94, 0.20);
+  --rcnr-success-fg:  #86efac;
   --rcnr-overlay:     rgba(0, 12, 23, 0.85);
   --rcnr-logo-fill:   #7ec8c8;
 
@@ -101,6 +104,9 @@
   --rcnr-cta-hover:   #F0C870;
   --rcnr-cta-text:    #3b2a0a;
   --rcnr-danger:      #dc2646;
+  --rcnr-success:     #15803d;
+  --rcnr-success-bg:  rgba(34, 197, 94, 0.15);
+  --rcnr-success-fg:  #14532d;
   --rcnr-overlay:     rgba(0, 0, 0, 0.4);
   --rcnr-logo-fill:   #1c1f26;
 
