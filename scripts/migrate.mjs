@@ -81,9 +81,10 @@ const RULES = [
   },
 
   // ---- Inline error/success/link text (single-class swaps) ----
+  // Lookbehind for whitespace-or-start prevents matching inside hover:text-red-400.
   {
     name: "Error text",
-    find: /\btext-red-400\b(?!\/)/g, // no opacity suffix; opacity variants flagged for review
+    find: /(?<=^|[\s"'`{])text-red-400\b(?!\/)/g,
     replace: "rcnr-error-text",
     kind: "auto",
   },
@@ -97,13 +98,13 @@ const RULES = [
   // ---- Brand-color opacity variants → theme-aware muted/dim text ----
   {
     name: "text-brand/50 → text-fg-muted",
-    find: /\btext-brand\/(50|60|70)\b/g,
+    find: /(?<=^|[\s"'`{])text-brand\/(50|60|70)\b/g,
     replace: "text-fg-muted",
     kind: "auto",
   },
   {
     name: "text-fg/60 → text-fg-muted",
-    find: /\btext-fg\/(50|60|70)\b/g,
+    find: /(?<=^|[\s"'`{])text-fg\/(50|60|70)\b/g,
     replace: "text-fg-muted",
     kind: "auto",
   },
@@ -111,7 +112,7 @@ const RULES = [
   // ---- Footer/secondary brand text ----
   {
     name: "text-brand-dark/50 → text-fg-dim",
-    find: /\btext-brand-dark\/50\b/g,
+    find: /(?<=^|[\s"'`{])text-brand-dark\/50\b/g,
     replace: "text-fg-dim",
     kind: "auto",
   },
