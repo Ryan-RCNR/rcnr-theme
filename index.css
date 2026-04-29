@@ -85,6 +85,10 @@
   --rcnr-info:        #60a5fa;
   --rcnr-info-bg:     rgba(96, 165, 250, 0.10);
   --rcnr-info-border: rgba(96, 165, 250, 0.25);
+  /* Link (interactive blue text — used for inline "click me" cues that
+     aren't full buttons). Theme-flips to a darker blue on light bg. */
+  --rcnr-link:        #60a5fa;
+  --rcnr-link-hover:  #93c5fd;
   --rcnr-overlay:     rgba(0, 12, 23, 0.85);
   --rcnr-logo-fill:   #7ec8c8;
 
@@ -133,6 +137,9 @@
   --rcnr-info:        #1d4ed8;
   --rcnr-info-bg:     rgba(96, 165, 250, 0.10);
   --rcnr-info-border: rgba(96, 165, 250, 0.40);
+  /* Link — same deeper blue as --rcnr-info for AA-passing inline links. */
+  --rcnr-link:        #1d4ed8;
+  --rcnr-link-hover:  #1e40af;
   --rcnr-overlay:     rgba(0, 0, 0, 0.4);
   --rcnr-logo-fill:   #1c1f26;
 
@@ -266,6 +273,136 @@ body {
 .btn-amber:disabled:hover {
   background: var(--rcnr-surface2);
   box-shadow: none;
+}
+
+/* --- Primary button (blue confirm/submit) ---
+   For dialog confirmations, secondary submits, and "yes do the thing"
+   actions where the brand-amber CTA is too loud. Theme-flips: bright
+   blue dark, deeper blue light, both with white text. Replaces the
+   raw `bg-blue-600 hover:bg-blue-700 text-white` pattern that was
+   hand-rolled in 6+ places (ConfirmDialog, ErrorBoundary, PromptDialog,
+   AssignmentDetail, etc.). */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.1rem;
+  background: #2563eb;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+[data-theme="light"] .btn-primary {
+  background: #1d4ed8;
+}
+
+[data-theme="light"] .btn-primary:hover {
+  background: #1e40af;
+}
+
+.btn-primary:disabled {
+  background: var(--rcnr-surface2);
+  color: var(--rcnr-text3);
+  cursor: not-allowed;
+}
+
+/* --- Danger button (destructive actions: delete, reset, kick) ---
+   Replaces hand-rolled `bg-red-600 hover:bg-red-700 text-white`. */
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.1rem;
+  background: #dc2626;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+[data-theme="light"] .btn-danger {
+  background: #b91c1c;
+}
+
+[data-theme="light"] .btn-danger:hover {
+  background: #991b1b;
+}
+
+.btn-danger:disabled {
+  background: var(--rcnr-surface2);
+  color: var(--rcnr-text3);
+  cursor: not-allowed;
+}
+
+/* --- Inline semantic text (small surfaces, no card chrome) ---
+   For input validation errors, "Saved" indicators, "Click here to..." links.
+   Smaller surface than the .rcnr-callout-* alert boxes. */
+.rcnr-error-text {
+  color: var(--rcnr-danger);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.rcnr-success-text {
+  color: var(--rcnr-success);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+[data-theme="light"] .rcnr-success-text {
+  /* The dark-mode --rcnr-success is bright (#22c55e); the light-mode
+     value (#15803d) is already deep enough to read on white. Both
+     resolve from --rcnr-success which already flips per theme. */
+}
+
+.rcnr-link {
+  color: var(--rcnr-link);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.rcnr-link:hover {
+  color: var(--rcnr-link-hover);
+  text-decoration: underline;
+}
+
+/* --- Error card (compact inline error container) ---
+   For ErrorState component + API failure surfaces. Smaller than
+   .rcnr-callout-danger but uses the same color tokens for consistency. */
+.rcnr-error-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: var(--rcnr-danger-bg);
+  border: 1px solid var(--rcnr-danger-border);
+  color: var(--rcnr-danger);
+  font-size: 0.875rem;
+}
+
+.rcnr-error-card__icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  color: var(--rcnr-danger);
 }
 
 /* --- Ghost button (secondary) --- */
@@ -519,6 +656,43 @@ body {
   margin-top: 0.125rem;
   line-height: 1.5;
   color: var(--rcnr-danger);
+  opacity: 0.85;
+}
+
+/* --- Callout: success (submission graded, work saved, etc.) ---
+   Symmetric API with warning/info/danger callouts. Uses --rcnr-success
+   which already flips per theme (#22c55e dark, #15803d light). */
+.rcnr-callout-success {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--rcnr-success-bg);
+  border: 1px solid color-mix(in srgb, var(--rcnr-success) 30%, transparent);
+  color: var(--rcnr-success);
+}
+
+[data-theme="light"] .rcnr-callout-success {
+  color: var(--rcnr-success);
+}
+
+.rcnr-callout-success__icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  color: var(--rcnr-success);
+}
+
+.rcnr-callout-success__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--rcnr-success);
+}
+
+.rcnr-callout-success__body {
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+  line-height: 1.5;
+  color: var(--rcnr-success);
   opacity: 0.85;
 }
 
