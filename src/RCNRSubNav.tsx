@@ -8,9 +8,13 @@ function RCNRSubNav({ tabs }: RCNRSubNavProps) {
         const activeClass = isWarning
           ? 'bg-warning/10 text-warning border border-warning/20'
           : 'bg-brand/15 text-brand'
+        // Inactive tabs use text-fg-muted (theme-aware secondary token)
+        // instead of text-brand/50 / text-warning/70 — those bake the
+        // dark-mode color in regardless of theme and fail WCAG AA on
+        // light bg (~2:1 contrast).
         const inactiveClass = isWarning
-          ? 'text-warning/70 hover:text-warning hover:bg-warning/5 border border-warning/10'
-          : 'text-brand/50 hover:text-brand hover:bg-brand/5'
+          ? 'text-fg-muted hover:text-warning hover:bg-warning/5 border border-warning/10'
+          : 'text-fg-muted hover:text-brand hover:bg-brand/5'
 
         const className = `flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors ${
           tab.active ? activeClass : inactiveClass
