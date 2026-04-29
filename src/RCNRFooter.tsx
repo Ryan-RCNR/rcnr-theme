@@ -5,7 +5,7 @@ function RCNRFooter({
   linkUrl = 'https://rcnr.net',
 }: RCNRFooterProps) {
   return (
-    <footer className="mt-auto py-4 text-center text-sm text-brand-dark/50">
+    <footer className="mt-auto py-4 text-center text-sm text-fg-dim">
       <a
         href={linkUrl}
         className="hover:text-brand transition-colors"

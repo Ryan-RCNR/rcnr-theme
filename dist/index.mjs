@@ -210,7 +210,7 @@ function RCNRFooter({
   toolName,
   linkUrl = "https://rcnr.net"
 }) {
-  return /* @__PURE__ */ jsx4("footer", { className: "mt-auto py-4 text-center text-sm text-brand-dark/50", children: /* @__PURE__ */ jsxs4(
+  return /* @__PURE__ */ jsx4("footer", { className: "mt-auto py-4 text-center text-sm text-fg-dim", children: /* @__PURE__ */ jsxs4(
     "a",
     {
       href: linkUrl,
