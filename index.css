@@ -563,6 +563,31 @@ body {
   border: 1px solid var(--rcnr-border);
 }
 
+/* Info badge (e.g. "AI Feedback ready" surfaces). Uses --rcnr-info
+   which flips per theme. */
+.rcnr-badge-info {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--rcnr-info-bg);
+  color: var(--rcnr-info);
+  border: 1px solid var(--rcnr-info-border);
+}
+
+/* Error badge (e.g. "grading error", "session error" indicators). */
+.rcnr-badge-error {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--rcnr-danger-bg);
+  color: var(--rcnr-danger);
+  border: 1px solid var(--rcnr-danger-border);
+}
+
 /* --- Callout banners (warning / info / danger) ---
    Theme-aware semantic alert boxes. The previous implementation used raw
    Tailwind classes (`text-amber-400/70` on a tinted bg) which failed WCAG
