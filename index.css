@@ -69,9 +69,22 @@
   --rcnr-cta-hover:   #F0C870;
   --rcnr-cta-text:    #1a0f00;
   --rcnr-danger:      #fb7185;
+  --rcnr-danger-bg:   rgba(251, 113, 133, 0.10);
+  --rcnr-danger-border: rgba(251, 113, 133, 0.25);
   --rcnr-success:     #22c55e;
   --rcnr-success-bg:  rgba(34, 197, 94, 0.20);
   --rcnr-success-fg:  #86efac;
+  /* Warning (amber) — for in-classroom recommendations, draft status,
+     non-blocking alerts. Bright in dark mode, deep amber on light to keep
+     WCAG AA. Used by .rcnr-callout-warning + .rcnr-badge-draft. */
+  --rcnr-warn:        #fbbf24;
+  --rcnr-warn-fg:     #fde68a;
+  --rcnr-warn-bg:     rgba(245, 158, 11, 0.10);
+  --rcnr-warn-border: rgba(245, 158, 11, 0.25);
+  /* Info (teal-leaning blue) — generic informational callouts. */
+  --rcnr-info:        #60a5fa;
+  --rcnr-info-bg:     rgba(96, 165, 250, 0.10);
+  --rcnr-info-border: rgba(96, 165, 250, 0.25);
   --rcnr-overlay:     rgba(0, 12, 23, 0.85);
   --rcnr-logo-fill:   #7ec8c8;
 
@@ -104,9 +117,22 @@
   --rcnr-cta-hover:   #F0C870;
   --rcnr-cta-text:    #3b2a0a;
   --rcnr-danger:      #dc2646;
+  --rcnr-danger-bg:   rgba(220, 38, 70, 0.08);
+  --rcnr-danger-border: rgba(220, 38, 70, 0.30);
   --rcnr-success:     #15803d;
   --rcnr-success-bg:  rgba(34, 197, 94, 0.15);
   --rcnr-success-fg:  #14532d;
+  /* Was bright #fbbf24 (amber-400) — fails AA at ~1.5:1 on white.
+     Use amber-800 #92400e (~7.5:1 on white). Borders/backgrounds keep
+     the amber hue so the visual identity is unchanged. */
+  --rcnr-warn:        #92400e;
+  --rcnr-warn-fg:     #78350f;
+  --rcnr-warn-bg:     rgba(245, 158, 11, 0.10);
+  --rcnr-warn-border: rgba(245, 158, 11, 0.40);
+  /* Info — slightly deeper blue for AA on white (~5.4:1). */
+  --rcnr-info:        #1d4ed8;
+  --rcnr-info-bg:     rgba(96, 165, 250, 0.10);
+  --rcnr-info-border: rgba(96, 165, 250, 0.40);
   --rcnr-overlay:     rgba(0, 0, 0, 0.4);
   --rcnr-logo-fill:   #1c1f26;
 
@@ -353,6 +379,147 @@ body {
   background: var(--rcnr-accent-dim);
   color: var(--rcnr-accent);
   border: 1px solid color-mix(in srgb, var(--rcnr-accent) 25%, transparent);
+}
+
+/* Status badges — theme-aware. Use for assignment status pills, etc.
+   These pair a tinted background with theme-appropriate text so contrast
+   stays readable in both modes. */
+.rcnr-badge-active {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--rcnr-success-bg);
+  color: var(--rcnr-success-fg);
+  border: 1px solid color-mix(in srgb, var(--rcnr-success) 30%, transparent);
+}
+
+[data-theme="light"] .rcnr-badge-active {
+  /* Use the dark success token directly for text on light bg */
+  color: var(--rcnr-success);
+}
+
+.rcnr-badge-draft {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--rcnr-warn-bg);
+  color: var(--rcnr-warn-fg);
+  border: 1px solid var(--rcnr-warn-border);
+}
+
+[data-theme="light"] .rcnr-badge-draft {
+  color: var(--rcnr-warn);
+}
+
+.rcnr-badge-closed {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--rcnr-surface2);
+  color: var(--rcnr-text3);
+  border: 1px solid var(--rcnr-border);
+}
+
+/* --- Callout banners (warning / info / danger) ---
+   Theme-aware semantic alert boxes. The previous implementation used raw
+   Tailwind classes (`text-amber-400/70` on a tinted bg) which failed WCAG
+   AA in light mode (1.3:1 contrast). These classes use --rcnr-warn /
+   --rcnr-info / --rcnr-danger tokens which flip per theme. */
+.rcnr-callout-warning {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--rcnr-warn-bg);
+  border: 1px solid var(--rcnr-warn-border);
+  color: var(--rcnr-warn);
+}
+
+.rcnr-callout-warning__icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  color: var(--rcnr-warn);
+}
+
+.rcnr-callout-warning__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--rcnr-warn);
+}
+
+.rcnr-callout-warning__body {
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+  line-height: 1.5;
+  color: var(--rcnr-warn);
+  /* Slight tone-down vs title without dropping below AA. */
+  opacity: 0.85;
+}
+
+.rcnr-callout-info {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--rcnr-info-bg);
+  border: 1px solid var(--rcnr-info-border);
+  color: var(--rcnr-info);
+}
+
+.rcnr-callout-info__icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  color: var(--rcnr-info);
+}
+
+.rcnr-callout-info__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--rcnr-info);
+}
+
+.rcnr-callout-info__body {
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+  line-height: 1.5;
+  color: var(--rcnr-info);
+  opacity: 0.85;
+}
+
+.rcnr-callout-danger {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--rcnr-danger-bg);
+  border: 1px solid var(--rcnr-danger-border);
+  color: var(--rcnr-danger);
+}
+
+.rcnr-callout-danger__icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  color: var(--rcnr-danger);
+}
+
+.rcnr-callout-danger__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--rcnr-danger);
+}
+
+.rcnr-callout-danger__body {
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+  line-height: 1.5;
+  color: var(--rcnr-danger);
+  opacity: 0.85;
 }
 
 /* --- Empty state --- */
