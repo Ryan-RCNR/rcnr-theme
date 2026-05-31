@@ -254,17 +254,24 @@ function getInitialTheme() {
   return "dark";
 }
 function ThemeToggle() {
-  const [theme, setTheme] = useState(getInitialTheme);
+  const [theme, setTheme] = useState("dark");
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
+    setMounted(true);
+    setTheme(getInitialTheme());
+  }, []);
+  useEffect(() => {
+    if (!mounted) return;
     document.documentElement.setAttribute("data-theme", theme);
     setCookie(theme);
-  }, [theme]);
+  }, [theme, mounted]);
   const toggle = () => setTheme((prev) => prev === "dark" ? "light" : "dark");
+  const displayTheme = mounted ? theme : "dark";
   return /* @__PURE__ */ jsx5(
     "button",
     {
       onClick: toggle,
-      "aria-label": `Switch to ${theme === "dark" ? "light" : "dark"} mode`,
+      "aria-label": `Switch to ${displayTheme === "dark" ? "light" : "dark"} mode`,
       style: {
         background: "transparent",
         border: "none",
@@ -277,7 +284,7 @@ function ThemeToggle() {
         color: "var(--rcnr-text2, #6888aa)",
         transition: "color 0.2s ease"
       },
-      children: theme === "dark" ? /* @__PURE__ */ jsx5(Sun, { size: 18 }) : /* @__PURE__ */ jsx5(Moon, { size: 18 })
+      children: displayTheme === "dark" ? /* @__PURE__ */ jsx5(Sun, { size: 18 }) : /* @__PURE__ */ jsx5(Moon, { size: 18 })
     }
   );
 }

@@ -42,19 +42,37 @@ function getInitialTheme(): Theme {
 }
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme)
+  // SSR-safe: the server has no cookie/localStorage/matchMedia, so it always
+  // renders 'dark'. The client MUST render the same thing on its first paint or
+  // React throws a hydration mismatch (#418/#423) — the icon + aria-label would
+  // otherwise differ. So we seed with the SSR default and read the real theme
+  // only after mount, gating the visible label/icon behind `mounted`.
+  const [theme, setTheme] = useState<Theme>('dark')
+  const [mounted, setMounted] = useState(false)
 
+  // Resolve the real theme once, on the client, after hydration.
   useEffect(() => {
+    setMounted(true)
+    setTheme(getInitialTheme())
+  }, [])
+
+  // Apply the resolved theme to the document (only after mount has set it).
+  useEffect(() => {
+    if (!mounted) return
     document.documentElement.setAttribute('data-theme', theme)
     setCookie(theme)
-  }, [theme])
+  }, [theme, mounted])
 
   const toggle = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'))
+
+  // Before mount, render the exact SSR output (dark → Sun icon, "Switch to light
+  // mode"). React hydrates cleanly, then the effect above swaps in the real theme.
+  const displayTheme: Theme = mounted ? theme : 'dark'
 
   return (
     <button
       onClick={toggle}
-      aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+      aria-label={`Switch to ${displayTheme === 'dark' ? 'light' : 'dark'} mode`}
       style={{
         background: 'transparent',
         border: 'none',
@@ -68,7 +86,7 @@ export default function ThemeToggle() {
         transition: 'color 0.2s ease',
       }}
     >
-      {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+      {displayTheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
     </button>
   )
 }
