@@ -36,8 +36,10 @@ function getInitialTheme(): Theme {
     localStorage.removeItem(COOKIE_NAME)
     return fromStorage
   }
-  // Default to system preference
-  if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light'
+  // RCNR is a dark-brand product line: default to dark for users who have not
+  // made an explicit choice, REGARDLESS of OS prefers-color-scheme. (Changed in
+  // v4.1.5 — previously OS-light users got light-by-default, which fought the
+  // dark brand on display tools like ClassZen. Explicit toggles still win above.)
   return 'dark'
 }
 

@@ -250,7 +250,6 @@ function getInitialTheme() {
     localStorage.removeItem(COOKIE_NAME);
     return fromStorage;
   }
-  if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
   return "dark";
 }
 function ThemeToggle() {
