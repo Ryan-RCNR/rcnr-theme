@@ -28,6 +28,13 @@
   --color-amber:       var(--rcnr-cta);
   --color-amber-hover: var(--rcnr-cta-hover);
 
+  /* Warning (caution/draft states) — theme-aware via --rcnr-warn:
+     bright amber #fbbf24 in dark mode, deep amber-800 #92400e in light
+     (light override lives in the [data-theme="light"] block).
+     Generates bg-warning, text-warning, border-warning + opacity
+     modifiers (bg-warning/10 etc.) used by RCNRSubNav's warning tabs. */
+  --color-warning: var(--rcnr-warn);
+
   --color-rose: #FB7185;
 
   --color-surface:         var(--rcnr-surface);
