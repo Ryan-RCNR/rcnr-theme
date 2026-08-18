@@ -5,9 +5,12 @@ export { default as RCNRMountainLogo } from './RCNRMountainLogo'
 export { default as ThemeToggle } from './ThemeToggle'
 export { ReportIssueModal } from './ReportIssueModal'
 export { RequestToolModal } from './RequestToolModal'
+export { SubscriptionWall } from './SubscriptionWall'
 
 export type {
   RCNRHeaderProps,
   RCNRSubNavProps,
   RCNRFooterProps,
+  SubscriptionWallProps,
+  SubscriptionWallState,
 } from './types'
