@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { ContactEmailField, NoStudentDataNote, sendFeedback, useHasSession, type GetFeedbackToken } from './feedback'
 
 interface RequestToolModalProps {
   isOpen: boolean
@@ -6,6 +7,10 @@ interface RequestToolModalProps {
   toolName: string
   apiBaseUrl?: string
   userEmail?: string
+  /** Clerk's getToken from useAuth(). Lets the report say who sent it. */
+  getToken?: GetFeedbackToken
+  /** Shown to support with the report, e.g. a git SHA or package version. */
+  appVersion?: string
 }
 
 export function RequestToolModal({
@@ -14,16 +19,23 @@ export function RequestToolModal({
   toolName,
   apiBaseUrl = 'https://api.rcnr.net',
   userEmail,
+  getToken,
+  appVersion,
 }: RequestToolModalProps) {
   const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
+  const [contactEmail, setContactEmail] = useState('')
+  const [followup, setFollowup] = useState(false)
+  const hasSession = useHasSession(isOpen, getToken, userEmail)
 
   const handleClose = useCallback(() => {
     setDescription('')
     setError('')
     setSubmitted(false)
+    setContactEmail('')
+    setFollowup(false)
     onClose()
   }, [onClose])
 
@@ -42,14 +54,21 @@ export function RequestToolModal({
     setSubmitting(true)
     setError('')
     try {
-      const res = await fetch(`${apiBaseUrl}/api/feedback/request`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tool_name: toolName, description, user_email: userEmail }),
-      })
-      if (res.ok) {
+      const result = await sendFeedback(
+        apiBaseUrl,
+        'request',
+        {
+          tool_name: toolName,
+          description,
+          user_email: userEmail || contactEmail.trim() || undefined,
+          app_version: appVersion,
+        },
+        getToken,
+      )
+      if (result.ok) {
+        setFollowup(result.followup)
         setSubmitted(true)
-        setTimeout(handleClose, 2000)
+        setTimeout(handleClose, result.followup ? 3500 : 2000)
       } else {
         setError('Something went wrong. Please try again.')
       }
@@ -92,6 +111,11 @@ export function RequestToolModal({
               </svg>
             </div>
             <p className="font-semibold" style={{ color: 'var(--rcnr-text)' }}>Request received. Thanks!</p>
+            {followup && (
+              <p className="text-sm mt-2" style={{ color: 'var(--rcnr-text3)' }}>
+                I'll email you if I have questions.
+              </p>
+            )}
           </div>
         ) : (
           <>
@@ -108,11 +132,16 @@ export function RequestToolModal({
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="What problem would this tool solve? What would it do?"
                   rows={5}
+                  maxLength={5000}
                   required
                   className="rcnr-input resize-none"
                   style={{ paddingLeft: '1rem' }}
                 />
               </div>
+
+              {!hasSession && <ContactEmailField value={contactEmail} onChange={setContactEmail} />}
+
+              <NoStudentDataNote />
 
               {error && <p className="text-red-400 text-sm">{error}</p>}
 

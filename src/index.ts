@@ -6,6 +6,7 @@ export { default as ThemeToggle } from './ThemeToggle'
 export { ReportIssueModal } from './ReportIssueModal'
 export { RequestToolModal } from './RequestToolModal'
 export { SubscriptionWall } from './SubscriptionWall'
+export type { GetFeedbackToken } from './feedback'
 
 export type {
   RCNRHeaderProps,
