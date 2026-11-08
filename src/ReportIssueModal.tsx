@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { ContactEmailField, NoStudentDataNote, sendFeedback, useHasSession, type GetFeedbackToken } from './feedback'
 
 interface ReportIssueModalProps {
   isOpen: boolean
@@ -6,6 +7,10 @@ interface ReportIssueModalProps {
   toolName: string
   apiBaseUrl?: string
   userEmail?: string
+  /** Clerk's getToken from useAuth(). Lets the report say who sent it. */
+  getToken?: GetFeedbackToken
+  /** Shown to support with the report, e.g. a git SHA or package version. */
+  appVersion?: string
 }
 
 export function ReportIssueModal({
@@ -14,16 +19,25 @@ export function ReportIssueModal({
   toolName,
   apiBaseUrl = 'https://api.rcnr.net',
   userEmail,
+  getToken,
+  appVersion,
 }: ReportIssueModalProps) {
   const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
+  const [contactEmail, setContactEmail] = useState('')
+  const [followup, setFollowup] = useState(false)
+  const [category, setCategory] = useState<'bug' | 'idea'>('bug')
+  const hasSession = useHasSession(isOpen, getToken, userEmail)
 
   const handleClose = useCallback(() => {
     setDescription('')
     setError('')
     setSubmitted(false)
+    setContactEmail('')
+    setFollowup(false)
+    setCategory('bug')
     onClose()
   }, [onClose])
 
@@ -42,14 +56,22 @@ export function ReportIssueModal({
     setSubmitting(true)
     setError('')
     try {
-      const res = await fetch(`${apiBaseUrl}/api/feedback/report`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tool_name: toolName, description, user_email: userEmail }),
-      })
-      if (res.ok) {
+      const result = await sendFeedback(
+        apiBaseUrl,
+        'report',
+        {
+          tool_name: toolName,
+          description,
+          category,
+          user_email: userEmail || contactEmail.trim() || undefined,
+          app_version: appVersion,
+        },
+        getToken,
+      )
+      if (result.ok) {
+        setFollowup(result.followup)
         setSubmitted(true)
-        setTimeout(handleClose, 2000)
+        setTimeout(handleClose, result.followup ? 3500 : 2000)
       } else {
         setError('Something went wrong. Please try again.')
       }
@@ -91,12 +113,17 @@ export function ReportIssueModal({
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <p className="font-semibold" style={{ color: 'var(--rcnr-text)' }}>Report sent. We'll fix it fast.</p>
+            <p className="font-semibold" style={{ color: 'var(--rcnr-text)' }}>Report sent. Thanks!</p>
+            {followup && (
+              <p className="text-sm mt-2" style={{ color: 'var(--rcnr-text3)' }}>
+                I'll email you if I have questions, and again when it's fixed.
+              </p>
+            )}
           </div>
         ) : (
           <>
             <h2 className="text-xl font-bold font-serif mb-1" style={{ color: 'var(--rcnr-text)' }}>Report an Issue</h2>
-            <p className="text-sm mb-6" style={{ color: 'var(--rcnr-text3)' }}>Found a bug or something broken? Let us know.</p>
+            <p className="text-sm mb-6" style={{ color: 'var(--rcnr-text3)' }}>Found a bug, or have an idea? Let us know.</p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -110,20 +137,40 @@ export function ReportIssueModal({
                 />
               </div>
 
+              <div className="flex gap-2" role="radiogroup" aria-label="Type">
+                {(['bug', 'idea'] as const).map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    role="radio"
+                    aria-checked={category === c}
+                    onClick={() => setCategory(c)}
+                    className={`${category === c ? 'btn-ice' : 'btn-ghost'} flex-1 py-2 text-sm rounded-xl`}
+                  >
+                    {c === 'bug' ? 'Something broke' : 'Idea'}
+                  </button>
+                ))}
+              </div>
+
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--rcnr-text3)' }}>
-                  What went wrong?
+                  {category === 'bug' ? 'What went wrong?' : "What's your idea?"}
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Describe the issue..."
+                  placeholder={category === 'bug' ? 'What were you doing, and what happened?' : 'What would make this tool better?'}
                   rows={4}
+                  maxLength={5000}
                   required
                   className="rcnr-input resize-none"
                   style={{ paddingLeft: '1rem' }}
                 />
               </div>
+
+              {!hasSession && <ContactEmailField value={contactEmail} onChange={setContactEmail} />}
+
+              <NoStudentDataNote />
 
               {error && <p className="text-red-400 text-sm">{error}</p>}
 
